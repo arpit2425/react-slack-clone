@@ -36,8 +36,7 @@ class Login extends React.Component {
         .then(signedInUser => {
           console.log(signedInUser);
            this.setState({
-            
-            loading: false
+              loading: false
           });
         })
         .catch(err => {
