@@ -1,26 +1,25 @@
-import React from 'react';
+import React,{useEffect} from 'react';
 import ReactDOM from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';
 import './index.css';
 import App from './Components/App';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter as Router, Switch, Route, withRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, useHistory } from 'react-router-dom';
 import Login from './Components/Auth/Login';
 import Register from './Components/Auth/Register';
 import firebase from './firebase'
-class Root extends React.Component
-{
-componentDidMount(){
-firebase.auth().onAuthStateChanged(user=>{
-if(user)
-{
-console.log(user)
-this.props.histroy.push("/");
 
-}
-});
-}
-render(){
+const Root = (props)=>{
+const histroy=useHistory();
+useEffect(() => {
+  firebase.auth().onAuthStateChanged(user=>{
+  if(user)
+  {
+  histroy.push("/");
+  }
+  })
+ 
+}, )
 
 return (
 
@@ -33,10 +32,10 @@ return (
 )
 }
 
-} 
-const RootWithRouter=withRouter(Root);
+
+
 ReactDOM.render(
-       <Router><RootWithRouter/></Router>
+       <Router><Root/></Router>
     , document.getElementById('root'),
 );
 
