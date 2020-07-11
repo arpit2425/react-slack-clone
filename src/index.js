@@ -13,12 +13,18 @@ import {
 import Login from './Components/Auth/Login';
 import Register from './Components/Auth/Register';
 import firebase from './firebase';
-
+import { createStore } from 'redux';
+import { connect, Provider } from 'react-redux';
+import rootReducer from './reducer';
+import { setUser } from './actions';
+import { composeWithDevTools } from 'redux-devtools-extension';
+const store = createStore(rootReducer, composeWithDevTools());
 const Root = (props) => {
   const histroy = useHistory();
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
+        props.setUser(user);
         histroy.push('/');
       }
     });
@@ -32,12 +38,14 @@ const Root = (props) => {
     </Switch>
   );
 };
-
+const RootWith = connect(null, { setUser })(Root);
 ReactDOM.render(
-  <Router>
-    <Root />
-  </Router>,
-  document.getElementById('root')
+  <Provider store={store}>
+    <Router>
+      <RootWith />
+    </Router>
+  </Provider>,
+  document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change
