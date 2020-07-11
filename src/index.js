@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import 'semantic-ui-css/semantic.min.css';
 import './index.css';
 import App from './Components/App';
+import Spinner from './Spinner';
 import * as serviceWorker from './serviceWorker';
 import {
   BrowserRouter as Router,
@@ -29,8 +30,10 @@ const Root = (props) => {
       }
     });
   });
-
-  return (
+  console.log(props.isLoading);
+  return props.isLoading ? (
+    <Spinner />
+  ) : (
     <Switch>
       <Route exact path="/" component={App} />
       <Route path="/login" component={Login} />
@@ -38,7 +41,10 @@ const Root = (props) => {
     </Switch>
   );
 };
-const RootWith = connect(null, { setUser })(Root);
+const mapStateToProps = (state) => ({
+  isLoading: state.user.isLoading,
+});
+const RootWith = connect(mapStateToProps, { setUser })(Root);
 ReactDOM.render(
   <Provider store={store}>
     <Router>
