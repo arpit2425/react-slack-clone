@@ -4,26 +4,43 @@ import 'semantic-ui-css/semantic.min.css';
 import './index.css';
 import App from './Components/App';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, withRouter } from 'react-router-dom';
 import Login from './Components/Auth/Login';
 import Register from './Components/Auth/Register';
-const Root = () => (
-    <Router>
+import firebase from './firebase'
+class Root extends React.Component
+{
+componentDidMount(){
+firebase.auth().onAuthStateChanged(user=>{
+if(user)
+{
+console.log(user)
+this.props.histroy.push("/");
+
+}
+});
+}
+render(){
+
+return (
+
         <Switch>
             <Route exact path='/' component={App} />
             <Route path='/login' component={Login} />
             <Route path='/register' component={Register} />
         </Switch>
-    </Router>
-);
+
+)
+}
+
+} 
+const RootWithRouter=withRouter(Root);
 ReactDOM.render(
-    <React.StrictMode>
-        <Root />
-    </React.StrictMode>,
-    document.getElementById('root'),
+       <Router><RootWithRouter/></Router>
+    , document.getElementById('root'),
 );
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+serviceWorker.register();
