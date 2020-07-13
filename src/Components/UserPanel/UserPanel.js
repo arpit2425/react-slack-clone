@@ -43,7 +43,7 @@ export class UserPanel extends Component {
           </Grid.Row>
           <Header style={{ padding: "0.25em" }} as="h4" inverted>
             <Dropdown trigger={
-            <span>User</span>
+              <span>{this.state.user.displayName}</span>
             } options={this.dropdownOptions()}/>
           </Header>
         </Grid.Column>
