@@ -25,13 +25,14 @@ const Root = (props) => {
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
-        props.setUser(user);
+      props.setUser(user)
+        ;
         histroy.push('/');
       }
     });
-  });
+  },[]);
   console.log(props.isLoading);
-  return props.isLoading ? (
+  return props.isLoading ? ( 
     <Spinner />
   ) : (
     <Switch>
@@ -42,9 +43,10 @@ const Root = (props) => {
   );
 };
 const mapStateToProps = (state) => ({
-  isLoading: state.user.isLoading,
-});
-const RootWith = connect(mapStateToProps, { setUser })(Root);
+isLoading:state.user.isLoading,
+})
+;
+const RootWith = connect(mapStateToProps , { setUser })(Root);
 ReactDOM.render(
   <Provider store={store}>
     <Router>
