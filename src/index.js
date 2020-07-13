@@ -17,7 +17,7 @@ import firebase from './firebase';
 import { createStore } from 'redux';
 import { connect, Provider } from 'react-redux';
 import rootReducer from './reducer';
-import { setUser } from './actions';
+import { setUser, clearUser } from './actions';
 import { composeWithDevTools } from 'redux-devtools-extension';
 const store = createStore(rootReducer, composeWithDevTools());
 const Root = (props) => {
@@ -26,8 +26,11 @@ const Root = (props) => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
       props.setUser(user)
-        ;
         histroy.push('/');
+      }
+      else {
+        histroy.push('/login')
+        props.clearUser();
       }
     });
   },[]);
@@ -46,7 +49,7 @@ const mapStateToProps = (state) => ({
 isLoading:state.user.isLoading,
 })
 ;
-const RootWith = connect(mapStateToProps , { setUser })(Root);
+const RootWith = connect(mapStateToProps, { setUser, clearUser })(Root);
 ReactDOM.render(
   <Provider store={store}>
     <Router>

@@ -1,21 +1,29 @@
 import React, { Component } from 'react'
-import {Dropdown, Grid,Header,Icon } from 'semantic-ui-react'
+import { Dropdown, Grid, Header, Icon } from 'semantic-ui-react'
+import firebase from '../../firebase';
 export class UserPanel extends Component {
   dropdownOptions = () => [
     {
-    key:"user",
-    text: <span>Signed in as <strong>User</strong></span>,
-    disabled:true
-  },
-    {
-      key:'avatar',
-      text:<span>Change Avatar</span>
+      key: "user",
+      text: <span>Signed in as <strong>User</strong></span>,
+      disabled: true
     },
     {
-      key:'signout',
-      text:<span>Sign out</span>
+      key: 'avatar',
+      text: <span>Change Avatar</span>
+    },
+    {
+      key: 'signout',
+      text: <span onClick={this.handleSignOut}>Sign out</span>
     }
-  ]
+  ];
+  handleSignOut = () => {
+    firebase
+      .auth()
+      .signOut()
+    .then(()=>console.log("Signed out"))
+    
+  }
   render() {
     return (
       <Grid style={{ background: '#350d36' }}>
