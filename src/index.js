@@ -31,7 +31,7 @@ const Root = (props) => {
       }
     });
   },[]);
-  console.log(props.isLoading);
+
   return props.isLoading ? ( 
     <Spinner />
   ) : (
