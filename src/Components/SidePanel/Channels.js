@@ -14,6 +14,10 @@ export class Channels extends Component {
   componentDidMount() {
     this.addListener();
   }
+  changeChannel = () => {
+    console.log("channel changed")
+  }
+
   addListener = () => {
     let loadedChannel = [];
     this.state.channelsRef.on('child_added', snap => {
@@ -25,7 +29,7 @@ export class Channels extends Component {
     channels.length > 0 && channels.map(channel => (
       <Menu.Item
         key={channel.id}
-        onClick={() => console.log(channel)}
+        onClick={this.changeChannel}
         name={channel.name}
         style={{ opacity: 0.7 }}
         
