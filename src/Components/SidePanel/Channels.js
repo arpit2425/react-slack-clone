@@ -5,26 +5,39 @@ import { connect} from 'react-redux';
 import {setCurrentChannel} from '../../actions/index'
 export class Channels extends Component {
   state = {
+    activeChannel:'',
     user:this.props.currentUser,
     channels: [],
     modal: false,
     channelDetails: "",
     channelsRef: firebase.database().ref('channels'),
     channelName:"",
-    
+    firstLoad:true,
   }
   componentDidMount() {
     this.addListener();
   }
   changeChannel = (channel) => {
+    this.setActiveChannel(channel);
     this.props.setCurrentChannel(channel);
   }
-
+  setActiveChannel = channel => {
+  this.setState({activeChannel:channel})
+  }
+  setFirstChannel = () => {
+    const firstChannel = this.state.channels[0];
+    if (this.state.firstLoad && this.state.channels.length > 0)
+    {
+      this.props.setCurrentChannel(firstChannel)
+    }
+    this.setState({ firstLoad: false })
+    this.setActiveChannel(firstChannel);
+  }
   addListener = () => {
     let loadedChannel = [];
     this.state.channelsRef.on('child_added', snap => {
       loadedChannel.push(snap.val());
-      this.setState({channels:loadedChannel})
+      this.setState({channels:loadedChannel},()=>this.setFirstChannel())
     })
   }
   displayChannels = channels => (
@@ -34,6 +47,7 @@ export class Channels extends Component {
         onClick={()=>this.changeChannel(channel)}
         name={channel.name}
         style={{ opacity: 0.7 }}
+        active={channel.id=== this.state.activeChannel.id}
         
       >
         # {channel.name}
