@@ -17,6 +17,12 @@ export class Channels extends Component {
   componentDidMount() {
     this.addListener();
   }
+  componentWillUnmount() {
+    this.removeListeners();
+  }
+  removeListeners = () => {
+    this.state.channelsRef.off();
+  }
   changeChannel = (channel) => {
     this.setActiveChannel(channel);
     this.props.setCurrentChannel(channel);

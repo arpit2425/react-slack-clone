@@ -1,11 +1,15 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import {Segment,Comment} from 'semantic-ui-react'
 
 export class Messages extends Component {
   render() {
     return (
-      <div>
-        Messages
-      </div>
+      <>
+        <Segment>
+          <Comment.Group className="messages">
+          </Comment.Group>
+        </Segment>
+        </>
     )
   }
 }
